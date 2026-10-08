@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>Module 1 Activity Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column workspace under a compact session header; four activity tabs, each a self-contained tool card. Palette lifted from the We Are Zenith session deck. */
+:root{
+  --bg:#f3f6f8; --surface:#ffffff; --surface-2:#e8eef2; --line:#cfdbe3;
+  --fg:#12232e; --muted:#4d6271; --accent:#1f7ea8; --accent-ink:#ffffff;
+  --lime:#4f6d00; --lime-bg:#e9f8b4; --navy:#152a37;
+  --good:#1d7a46; --good-bg:#dff3e7; --warn:#9a5b00; --warn-bg:#fdf0d6; --bad:#b3261e; --bad-bg:#fbe3e1;
+  --display:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#152a37; --surface:#1c3646; --surface-2:#234355; --line:#2f5468;
+  --fg:#f2f7fa; --muted:#a8bfcc; --accent:#4fb3dc; --accent-ink:#0d1d27;
+  --lime:#e1fb5d; --lime-bg:#33480f; --navy:#0f202b;
+  --good:#7fe0a6; --good-bg:#17402b; --warn:#ffcc73; --warn-bg:#4a3510; --bad:#ff9d94; --bad-bg:#4d1f1c;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#152a37; --surface:#1c3646; --surface-2:#234355; --line:#2f5468;
+  --fg:#f2f7fa; --muted:#a8bfcc; --accent:#4fb3dc; --accent-ink:#0d1d27;
+  --lime:#e1fb5d; --lime-bg:#33480f; --navy:#0f202b;
+  --good:#7fe0a6; --good-bg:#17402b; --warn:#ffcc73; --warn-bg:#4a3510; --bad:#ff9d94; --bad-bg:#4d1f1c;
+  color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-weight:400;font-size:15px;line-height:1.55;margin:0}
+.wrap{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:grid;gap:22px}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.1;margin:0;text-wrap:balance}
+h1 .ast{color:var(--lime)}
+.lede{color:var(--muted);max-width:62ch;margin:0}
+.ksb-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--fg);border:1px solid var(--line)}
+nav{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px}
+nav button{font:500 14px/1 var(--body);padding:11px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;display:flex;gap:8px;align-items:center}
+nav button .n{font-family:var(--mono);font-size:11px;color:var(--muted)}
+nav button[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+nav button[aria-selected="true"] .n{color:var(--bg);opacity:.7}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,3vw,30px);display:grid;gap:18px;min-width:0}
+.panel h2{font-family:var(--display);font-weight:600;font-size:24px;margin:0;line-height:1.2}
+.panel .sub{color:var(--muted);margin:0;max-width:65ch}
+.btn{font:500 14px/1 var(--body);padding:12px 18px;border-radius:10px;border:1px solid transparent;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--fg)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:13px;color:var(--muted)}
+.mono{font-family:var(--mono)}
+
+/* Quiz */
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.progress{display:flex;gap:4px}
+.progress i{width:22px;height:6px;border-radius:3px;background:var(--surface-2)}
+.progress i.ok{background:var(--good)} .progress i.no{background:var(--bad)} .progress i.cur{background:var(--accent)}
+.qtext{font-size:19px;font-weight:500;margin:0;max-width:60ch;text-wrap:pretty}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;font:400 15px/1.45 var(--body);padding:13px 15px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer;display:flex;gap:12px}
+.opt .k{font-family:var(--mono);color:var(--muted);flex:none}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.right{background:var(--good-bg);border-color:var(--good)} .opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.explain{border-radius:10px;padding:14px 16px;background:var(--surface-2)}
+.explain b{display:block;margin-bottom:2px}
+.score{font-family:var(--display);font-size:56px;font-weight:600;line-height:1;color:var(--fg)}
+.score small{font-size:20px;color:var(--muted)}
+.bars{display:grid;gap:6px}
+.bar{display:grid;grid-template-columns:44px 1fr 48px;gap:10px;align-items:center;font-size:13px}
+.bar .t{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.bar .t span{display:block;height:100%;background:var(--accent)}
+
+/* Prompt lab */
+.lab{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px}
+@media (max-width:760px){.lab{grid-template-columns:1fr}}
+label.lbl{font-size:13px;font-weight:500;display:block;margin-bottom:6px}
+select,textarea{width:100%;font:400 15px/1.5 var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px}
+textarea{min-height:190px;resize:vertical}
+.brief{background:var(--surface-2);border-radius:10px;padding:12px 14px;font-size:14px}
+.checks{display:grid;gap:8px;align-content:start}
+.check{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:start;font-size:14px}
+.dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;background:var(--surface-2);color:var(--muted)}
+.check.on .dot{background:var(--good-bg);color:var(--good)}
+.check .h{font-weight:500} .check .d{color:var(--muted);font-size:13px}
+.meter{font-family:var(--display);font-weight:600;font-size:34px;line-height:1}
+.alert{border-radius:10px;padding:12px 14px;font-size:14px;background:var(--bad-bg);color:var(--fg);border:1px solid var(--bad)}
+.alert.soft{background:var(--warn-bg);border-color:var(--warn)}
+.alert b{color:var(--bad)} .alert.soft b{color:var(--warn)}
+.out{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px;max-height:420px;overflow:auto}
+.ai-tag{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+
+/* Workflow builder */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:820px){.flow{grid-template-columns:1fr}}
+.slot{border:2px dashed var(--line);border-radius:12px;min-height:150px;padding:10px;display:grid;grid-template-rows:auto 1fr;gap:8px;background:var(--bg);cursor:pointer;min-width:0}
+.slot.over,.slot.armed{border-color:var(--accent);background:var(--surface-2)}
+.slot.ok{border-style:solid;border-color:var(--good)} .slot.no{border-style:solid;border-color:var(--bad)}
+.slot .sl{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:flex;justify-content:space-between}
+.slot .hint{font-size:12px;color:var(--muted);align-self:center;text-align:center}
+.blk{font-size:13.5px;line-height:1.4;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);cursor:grab;user-select:none;touch-action:manipulation}
+.blk.sel{outline:3px solid var(--accent);outline-offset:1px}
+.blk .ty{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;padding:12px;border-radius:12px;background:var(--surface-2);min-height:70px}
+.verdict{display:grid;gap:8px}
+.vline{font-size:14px;padding:10px 12px;border-radius:10px}
+.vline.ok{background:var(--good-bg)} .vline.no{background:var(--bad-bg)} .vline.warn{background:var(--warn-bg)}
+
+/* KSB */
+.ksbs{display:grid;gap:12px}
+.ksb{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;padding:14px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.ksb .code{font-family:var(--display);font-weight:600;font-size:22px;color:var(--fg)}
+.ksb .code small{display:block;font:400 11px/1.2 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ksb p{margin:0 0 8px}
+.levels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.lv{font:400 13px/1 var(--body);padding:8px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.lv[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.ksb textarea{min-height:60px;font-size:14px}
+.ev{font-size:13px;color:var(--muted)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.sum{padding:12px;border-radius:10px;background:var(--surface-2)}
+.sum .c{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.sum .v{font-weight:600}
+footer{color:var(--muted);font-size:13px}
+.send{background:var(--surface);border:2px solid var(--accent);border-radius:var(--r);padding:clamp(18px,3vw,30px);display:grid;gap:14px}
+.send h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0}
+.send input{font:400 15px/1.4 var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;max-width:380px}
+.steps{margin:0;padding-left:20px;display:grid;gap:4px;color:var(--fg)}
+.prog{display:flex;flex-wrap:wrap;gap:6px}
+.prog .chip.done{background:var(--good-bg);border-color:var(--good)}
+a.btn{text-decoration:none;display:inline-block}
+@media (prefers-reduced-motion:no-preference){.opt,.blk,.slot,nav button{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">We Are Zenith · L4 AI &amp; Automation Practitioner · Month 1</div>
+    <h1>Module 1 Activity Lab <span class="ast" aria-hidden="true">✱</span></h1>
+    <p class="lede">Four short activities that go with the session on AI, automation and opportunity spotting. Use dummy data only: nothing on this page needs real names, emails or records.</p>
+    <div class="ksb-row" aria-label="KSBs covered"><span class="chip">K7</span><span class="chip">K9</span><span class="chip">K25</span><span class="chip">S14</span><span class="chip">S25</span><span class="chip">B6</span></div>
+  </header>
+
+  <nav role="tablist" aria-label="Activities">
+    <button role="tab" id="t-quiz" aria-controls="quiz" data-tab="quiz"><span class="n">1</span>Quiz</button>
+    <button role="tab" id="t-prompt" aria-controls="prompt" data-tab="prompt"><span class="n">2</span>Prompt lab</button>
+    <button role="tab" id="t-workflow" aria-controls="workflow" data-tab="workflow"><span class="n">3</span>Workflow builder</button>
+    <button role="tab" id="t-ksb" aria-controls="ksb" data-tab="ksb"><span class="n">4</span>KSB self-check</button>
+  </nav>
+
+  <!-- QUIZ -->
+  <section class="panel" id="quiz" role="tabpanel" aria-labelledby="t-quiz">
+    <div>
+      <h2>Knowledge check</h2>
+      <p class="sub">Ten questions on the Month 1 content. Pick an answer to see why it is right or wrong.</p>
+    </div>
+    <div id="quizBody"></div>
+  </section>
+
+  <!-- PROMPT LAB -->
+  <section class="panel" id="prompt" role="tabpanel" aria-labelledby="t-prompt" hidden>
+    <div>
+      <h2>Prompt lab</h2>
+      <p class="sub">Write a prompt for a workplace task. The checklist scores it as you type and warns you if it contains anything that looks like personal or sensitive data.</p>
+    </div>
+    <div class="lab">
+      <div style="display:grid;gap:12px;min-width:0">
+        <div>
+          <label class="lbl" for="scen">Scenario</label>
+          <select id="scen"></select>
+        </div>
+        <div class="brief" id="brief"></div>
+        <div>
+          <label class="lbl" for="ptext">Your prompt</label>
+          <textarea id="ptext" spellcheck="true"></textarea>
+        </div>
+        <div class="row">
+          <button class="btn ghost" id="loadWeak" type="button">Load a weak example</button>
+          <button class="btn ghost" id="loadStrong" type="button">Load a strong example</button>
+          <button class="btn ghost" id="clearP" type="button">Clear</button>
+        </div>
+        <div id="piiBox"></div>
+        <div class="row" id="aiRow" hidden>
+          <button class="btn" id="askReview" type="button">Ask Claude to review my prompt</button>
+          <button class="btn ghost" id="runPrompt" type="button">Run my prompt</button>
+          <button class="btn ghost" id="stopAI" type="button" hidden>Stop</button>
+        </div>
+        <p class="note" id="aiNote">Live AI feedback appears here when this page is opened inside Claude. The checklist works everywhere.</p>
+        <div id="aiOut" hidden>
+          <div class="ai-tag" id="aiTag">Claude</div>
+          <div class="out" id="aiText" aria-live="polite"></div>
+          <p class="note">Check this output before you use it. It is a first draft, not a final answer.</p>
+        </div>
+      </div>
+      <div class="checks" aria-live="polite">
+        <div><span class="meter" id="pScore">0</span><span class="note"> / 5 prompt ingredients</span></div>
+        <div id="checkList" class="checks"></div>
+        <p class="note">This checklist looks for words that usually signal each ingredient. It is a guide for practice, not a mark.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section class="panel" id="workflow" role="tabpanel" aria-labelledby="t-workflow" hidden>
+    <div>
+      <h2>Workflow builder</h2>
+      <p class="sub">Build an AI-plus-automation workflow. Drag each card into the right stage, or tap a card and then tap a stage. Some cards are traps.</p>
+    </div>
+    <div class="row">
+      <label class="lbl" for="wfScen" style="margin:0">Scenario</label>
+      <select id="wfScen" style="width:auto;flex:1;min-width:200px"></select>
+    </div>
+    <div class="brief" id="wfBrief"></div>
+    <div class="flow" id="flow"></div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:6px">Cards</div>
+      <div class="pool" id="pool" aria-label="Card pool"></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="wfCheck" type="button">Check my workflow</button>
+      <button class="btn ghost" id="wfReset" type="button">Reset</button>
+    </div>
+    <div class="verdict" id="verdict" aria-live="polite"></div>
+  </section>
+
+  <!-- KSB -->
+  <section class="panel" id="ksb" role="tabpanel" aria-labelledby="t-ksb" hidden>
+    <div>
+      <h2>KSB self-check</h2>
+      <p class="sub">Rate yourself against the six Month 1 KSBs and note what evidence you could show. Copy the summary into your OJT log or bring it to your progress review. Your answers stay in this browser only.</p>
+    </div>
+    <div class="ksbs" id="ksbList"></div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:8px">Summary</div>
+      <div class="summary" id="ksbSum"></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="copySum" type="button">Copy summary</button>
+      <button class="btn ghost" id="resetKsb" type="button">Clear my answers</button>
+      <span class="note" id="copyMsg" aria-live="polite"></span>
+    </div>
+    <textarea id="sumText" readonly hidden aria-label="Summary text"></textarea>
+  </section>
+
+  <section class="send" id="send" aria-labelledby="sendH">
+    <div>
+      <div class="eyebrow">When you have finished</div>
+      <h2 id="sendH">Send your results to your trainer</h2>
+    </div>
+    <div class="prog" id="progress" aria-label="What you have completed"></div>
+    <div>
+      <label class="lbl" for="learnerName">Your full name</label>
+      <input id="learnerName" type="text" autocomplete="name" placeholder="e.g. Jo Bloggs">
+    </div>
+    <ol class="steps">
+      <li>Press <b>Email my results</b>.</li>
+      <li id="stepSend">Your email app opens with your results already written. Press <b>Send</b> and do not change the subject line.</li>
+    </ol>
+    <div class="row">
+      <button class="btn" id="emailResults" type="button">Email my results</button>
+      <button class="btn ghost" id="saveResults" type="button">Save as a file instead</button>
+      <a class="btn ghost" id="uploadLink" href="#" target="_blank" rel="noopener" hidden>Open the upload folder</a>
+      <span class="note" id="saveMsg" aria-live="polite"></span>
+    </div>
+    <p class="note" style="margin:0">Your results contain your name, quiz scores, workflow results, prompt scores and KSB self-check answers. It is shared only with your trainer for tracking your apprenticeship progress. Your prompt text is not included.</p>
+  </section>
+
+  <footer>Month 1 · Introduction to AI, Automation &amp; Emerging Technology Opportunities. Next month: responsible AI, ethics, workforce impact and safe practice.</footer>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const el=(t,a={},...kids)=>{const e=document.createElement(t);for(const[k,v]of Object.entries(a)){if(k==='class')e.className=v;else if(k==='text')e.textContent=v;else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v)}kids.flat().forEach(c=>c!=null&&e.append(c));return e};
+/* Trainer setting: paste the OneDrive 'Request files' link between the quotes */
+const UPLOAD_LINK = '';
+/* Trainer setting: the email address results are sent to */
+const RESULTS_EMAIL = 'dave@we-are-zenith.com';
+/* Optional trainer setting: a form-to-email endpoint (Formspree, FormSubmit). If set, results send silently with no email app needed */
+const FORM_ENDPOINT = '';
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- Tabs ---------- */
+const tabs=[...document.querySelectorAll('nav button')];
+function show(id){tabs.forEach(b=>{const on=b.dataset.tab===id;b.setAttribute('aria-selected',on);document.getElementById(b.dataset.tab).hidden=!on});store.set('m1tab',id)}
+tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
+const h=(location.hash||'').slice(1);
+show(['quiz','prompt','workflow','ksb'].includes(h)?h:store.get('m1tab','quiz'));
+
+/* ---------- Quiz ---------- */
+const Q=[
+ {k:'K9',q:'Which description best fits workflow automation?',o:['A chatbot that answers staff questions','A connected process where one action triggers the next, such as a form creating an email and a task','Any software that uses artificial intelligence','A spreadsheet with formulas'],a:1,e:'Workflow automation links steps together: a trigger (form submitted) starts actions (email sent, task created). It does not need AI at all.'},
+ {k:'K7',q:'An AI tool gives you a confident answer and cites a study you cannot find anywhere. What is the most likely explanation?',o:['The study is too new to be online','The AI has produced a confident but unreliable output, sometimes called a hallucination','Your search engine is blocking it','AI tools only cite private research'],a:1,e:'AI can invent sources that sound real. Treat any citation as unverified until you have found the original.'},
+ {k:'K7',q:'A team automates a process that already has unnecessary steps and frequent errors. What usually happens?',o:['The automation fixes the errors automatically','The problems happen faster and more consistently','The process stops working entirely','Nothing changes'],a:1,e:'Automation follows the process it is given. Fix or simplify the process first, then automate it.'},
+ {k:'S14',q:'Which task is the strongest candidate for automation?',o:['Deciding who gets promoted','Handling a formal grievance','Sending managers a reminder every Friday to approve timesheets','Writing the company strategy'],a:2,e:'It is repetitive, rules-based, high-volume and low-risk. The others are sensitive, complex or people-focused decisions that need human judgement.'},
+ {k:'B6',q:'You want to test whether AI could summarise sickness absence notes. What is the safest first step?',o:['Paste last month’s real notes into a free chatbot to see what happens','Create made-up example notes, test them in an approved tool, and log what you found','Ask a colleague to test it on their own records','Wait until someone else tries it'],a:1,e:'Health information is special category data. Safe experimentation means dummy data, approved tools, organisational policy and a record of what you tried.'},
+ {k:'K25',q:'What does keeping up to date with emerging technology look like in practice?',o:['Trying every new AI tool that launches','Regularly reviewing vendor release notes, webinars and professional networks, then judging what is relevant and safe for your workplace','Waiting for IT to announce changes','Reading about AI only when there is a problem'],a:1,e:'Staying current is not chasing everything. It is spotting relevant developments and judging fit, safety and value.'},
+ {k:'K9',q:'Staff are worried a new AI tool will be used to monitor them. What is the best response?',o:['Roll it out quietly so nobody worries','Tell staff it is none of their concern','Involve staff early, explain what the tool does and does not do, and keep human oversight','Cancel all AI projects'],a:2,e:'AI affects culture and wellbeing. Transparency and involvement build trust and better adoption.'},
+ {k:'S25',q:'A supplier demos an impressive AI tool. Which question matters most first?',o:['What colour options does the interface have?','Which of our problems does it solve, and how does it handle our data?','How many other companies have bought it?','Can we get a discount?'],a:1,e:'Start with the problem and data protection. A tool that does not solve a real need, or mishandles data, is a risk however impressive it looks.'},
+ {k:'K9',q:'What do APIs and connectors do?',o:['Let different systems share data and work together','Make AI outputs more accurate','Replace the need for any software','Store passwords securely'],a:0,e:'APIs and connectors move data between platforms, for example sending HR system data into payroll without retyping.'},
+ {k:'K7',q:'Which of these uses needs the most human judgement?',o:['Formatting a document','Sending interview reminders','Deciding which job candidates to reject','Creating a task when a form is submitted'],a:2,e:'Decisions that affect people’s jobs and opportunities carry risks of bias and unfairness. AI can support them, but a person stays accountable.'}
+];
+let qi=0, qa=[];
+function renderQuiz(){
+  const b=$('#quizBody'); b.replaceChildren();
+  if(qi>=Q.length) return renderScore();
+  const item=Q[qi];
+  const prog=el('div',{class:'progress','aria-hidden':'true'},Q.map((_,i)=>el('i',{class:i<qa.length?(qa[i]?'ok':'no'):(i===qi?'cur':'')})));
+  b.append(el('div',{class:'qhead'},el('span',{class:'eyebrow',text:`Question ${qi+1} of ${Q.length} · ${item.k}`}),prog));
+  b.append(el('p',{class:'qtext',text:item.q,style:'margin:14px 0'}));
+  const opts=el('div',{class:'opts'});
+  const exp=el('div',{class:'explain',hidden:''});
+  const next=el('button',{class:'btn',type:'button',hidden:'',text:qi===Q.length-1?'See my score':'Next question',onclick:()=>{qi++;renderQuiz();$('#quiz').scrollIntoView({block:'nearest'})}});
+  item.o.forEach((t,i)=>{
+    const o=el('button',{class:'opt',type:'button'},el('span',{class:'k',text:'ABCD'[i]}),el('span',{text:t}));
+    o.addEventListener('click',()=>{
+      const ok=i===item.a; qa.push(ok); store.set('m1quizLast',qa); if(qa.length===Q.length){const best=store.get('m1quizBest',null);if(!best||qa.filter(Boolean).length>=best.filter(Boolean).length)store.set('m1quizBest',qa.slice())} renderProgress();
+      [...opts.children].forEach((c,j)=>{c.disabled=true;if(j===item.a)c.classList.add('right');else if(j===i)c.classList.add('wrong')});
+      exp.replaceChildren(el('b',{text:ok?'Correct.':'Not quite.'}),document.createTextNode(item.e));
+      exp.hidden=false; next.hidden=false; next.focus();
+    });
+    opts.append(o);
+  });
+  b.append(opts,el('div',{style:'height:12px'}),exp,el('div',{style:'height:12px'}),next);
+}
+function renderScore(){
+  const b=$('#quizBody'); const s=qa.filter(Boolean).length;
+  const by={};Q.forEach((q,i)=>{by[q.k]=by[q.k]||[0,0];by[q.k][1]++;if(qa[i])by[q.k][0]++});
+  const msg=s>=9?'Excellent grasp of the Month 1 foundations.':s>=7?'Good foundation. Revisit the KSBs below where you dropped marks.':'Worth another look at the slides on concepts, risks and safe experimentation before the task.';
+  b.replaceChildren(
+    el('div',{class:'score'},String(s),el('small',{text:` / ${Q.length}`})),
+    el('p',{text:msg,style:'margin:8px 0 16px'}),
+    el('div',{class:'bars'},Object.entries(by).map(([k,[c,t]])=>el('div',{class:'bar'},el('span',{class:'mono',text:k}),el('div',{class:'t'},el('span',{style:`width:${c/t*100}%`})),el('span',{class:'mono',text:`${c}/${t}`})))),
+    el('div',{style:'height:16px'}),
+    el('button',{class:'btn',type:'button',text:'Try again',onclick:()=>{qi=0;qa=[];renderQuiz()}})
+  );
+}
+renderQuiz();
+
+/* ---------- Prompt lab ---------- */
+const S=[
+ {id:'hr',name:'HR · New starter FAQs',brief:'Your HR team answers the same new-starter questions every week. Write a prompt asking AI to draft a set of first-week FAQs.',
+  weak:'write onboarding faqs',
+  strong:'You are an HR adviser at a 200-person UK company. Draft 8 FAQs for new starters about their first week (IT setup, parking, payday, who to ask for help). Use plain UK English and a friendly tone. Format each as a bold question followed by a 1-2 sentence answer. Do not invent policy details: mark anything that needs confirming as [CHECK].'},
+ {id:'rec',name:'Recruitment · Job advert',brief:'A hiring manager needs a first draft of a job advert for an Operations Coordinator. Write a prompt that gets an inclusive, accurate draft.',
+  weak:'make a job advert for an operations coordinator',
+  strong:'Act as an experienced recruiter. Write a job advert for an Operations Coordinator at a mid-sized UK logistics firm, for candidates with 1-3 years of admin or coordination experience. Include: a 2-sentence summary, 5 key responsibilities, 5 essential skills and a short "why join us" section. Use inclusive, gender-neutral language and avoid jargon. Keep it under 300 words. Do not include a salary figure; leave [SALARY] as a placeholder.'},
+ {id:'lead',name:'Leadership · Meeting actions',brief:'A team leader wants AI to turn rough (made-up) meeting notes into a clear action list.',
+  weak:'summarise my meeting',
+  strong:'You are a team leader\'s assistant. Turn the meeting notes below into an action list for the team. Format as a table with columns: Action, Owner, Deadline. If an owner or deadline is missing, write "To confirm" rather than guessing. Keep each action under 15 words.\n\nNotes (dummy example): Team A to update rota by Friday. Someone needs to chase the printer contract. Sam to share the Q3 figures next week.'},
+ {id:'train',name:'Training · Feedback summary',brief:'A trainer has course feedback comments (use made-up ones) and wants the main themes quickly.',
+  weak:'what do these comments say',
+  strong:'You are a learning and development analyst. Summarise the course feedback below for the trainer. Group comments into 3-4 themes, each with a one-line description and how many comments fit it. Then list 2 practical improvements. Use a neutral tone and do not quote any comment word for word.\n\nFeedback (dummy example): "Loved the practical tasks." "Too much content for one morning." "More examples from HR please." "Room was cold." "Practical tasks were the best part."'}
+];
+const ING=[
+ {k:'Role',d:'Tell the AI who to be (e.g. "You are an HR adviser").',re:/\b(you are|you're|act as|acting as|as an? (expert|experienced|hr|recruiter|adviser|advisor|analyst|assistant|manager|trainer))\b/i},
+ {k:'Task',d:'A clear action verb: draft, summarise, list, rewrite.',re:/\b(write|draft|summari[sz]e|create|list|explain|rewrite|suggest|compare|produce|generate|turn|group|outline|plan)\b/i},
+ {k:'Context',d:'Who it is for and the situation (audience, organisation, purpose).',re:/\b(for (new|the|our|a|staff|managers|learners|candidates|team)|audience|company|organisation|organization|firm|team|candidates|starters|learners|staff|employees)\b/i},
+ {k:'Format',d:'The shape of the answer: bullets, table, word limit, number of items.',re:/\b(bullet|table|columns?|headings?|format|\d+\s*(words|bullets|points|sentences|items|faqs|themes|actions|lines)|under \d+|one[- ]line|step[- ]by[- ]step|list of)\b/i},
+ {k:'Constraints',d:'Tone, language and limits (e.g. "plain UK English", "do not invent").',re:/\b(tone|friendly|formal|neutral|plain|uk english|british|inclusive|avoid|don't|do not|must|only|never|placeholder|jargon|rather than guessing)\b/i}
+];
+const PII=[
+ {re:/[\w.+-]+@[\w-]+\.[\w.]+/,m:'an email address'},
+ {re:/(\+44\s?7\d{3}|\b07\d{3})\s?\d{3}\s?\d{3}\b/,m:'a UK mobile number'},
+ {re:/\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/i,m:'something that looks like a National Insurance number'},
+ {re:/\b(GIR ?0AA|[A-PR-UWYZ][A-HK-Y]?\d[A-Z\d]? ?\d[ABD-HJLNP-UW-Z]{2})\b/i,m:'a postcode'},
+ {re:/\b\d{2}-\d{2}-\d{2}\b|\bsort code\b|\baccount number\b/i,m:'bank details'}
+];
+const SENS=/\b(salary|salaries|sickness|sick note|diagnos\w*|medical|disciplinary|grievance|date of birth|dob|home address|disability|pregnan\w*|criminal|religion|ethnicity)\b/i;
+const scen=$('#scen'), pt=$('#ptext');
+S.forEach(s=>scen.append(el('option',{value:s.id,text:s.name})));
+const drafts=store.get('m1prompts',{});
+function cur(){return S.find(s=>s.id===scen.value)}
+function loadScen(){const s=cur();$('#brief').textContent=s.brief;pt.value=drafts[s.id]??'';evalPrompt()}
+scen.addEventListener('change',()=>{store.set('m1scen',scen.value);loadScen()});
+scen.value=store.get('m1scen','hr'); if(!cur()) scen.value='hr';
+let blocked=false;
+function evalPrompt(){
+  const t=pt.value; let n=0;
+  const list=$('#checkList'); list.replaceChildren();
+  ING.forEach(i=>{const on=i.re.test(t);if(on)n++;list.append(el('div',{class:'check'+(on?' on':'')},el('span',{class:'dot',text:on?'✓':'·'}),el('div',{},el('div',{class:'h',text:i.k}),el('div',{class:'d',text:i.d}))))});
+  $('#pScore').textContent=n;
+  const hits=PII.filter(p=>p.re.test(t)).map(p=>p.m);
+  const box=$('#piiBox'); box.replaceChildren(); blocked=hits.length>0;
+  if(hits.length) box.append(el('div',{class:'alert'},el('b',{text:'Possible personal data. '}),document.createTextNode(`Your prompt contains ${hits.join(', ')}. Replace it with made-up details before using any AI tool. Claude review and running are switched off until you do.`)));
+  else if(SENS.test(t)) box.append(el('div',{class:'alert soft'},el('b',{text:'Sensitive topic. '}),document.createTextNode('This touches information that is often confidential or special category data. Use dummy examples and check your organisation’s AI policy.')));
+  $('#runPrompt').disabled=blocked||!t.trim(); $('#askReview').disabled=blocked||!t.trim();
+  drafts[cur().id]=t; store.set('m1prompts',drafts);
+}
+pt.addEventListener('input',evalPrompt);
+$('#loadWeak').onclick=()=>{pt.value=cur().weak;evalPrompt()};
+$('#loadStrong').onclick=()=>{pt.value=cur().strong;evalPrompt()};
+$('#clearP').onclick=()=>{pt.value='';evalPrompt();pt.focus()};
+loadScen();
+
+let sample=null, ctl=null;
+function busy(on){$('#askReview').disabled=on||blocked||!pt.value.trim();$('#runPrompt').disabled=on||blocked||!pt.value.trim();$('#stopAI').hidden=!on}
+function errCopy(c){return({not_granted:'Claude access was not allowed for this page. The checklist still works.',sampling_disabled:'Claude is not available on this account. The checklist still works.',rate_limited:'Too many requests just now. Wait a minute and try again.',session_expired:'Please sign in to Claude again, then retry.',refused:'Claude declined this request. Try rewording the prompt.'})[c]||'Something went wrong reaching Claude. Try again in a moment.'}
+async function callAI(kind){
+  if(!sample) return;
+  ctl=new AbortController(); busy(true);
+  $('#aiOut').hidden=false; $('#aiTag').textContent=kind==='review'?'Claude · prompt feedback':'Claude · output from your prompt';
+  const out=$('#aiText'); out.textContent='Thinking...';
+  const s=cur();
+  const input=kind==='review'
+   ? `You are coaching a Level 4 AI and Automation apprentice in the UK on prompt writing. Scenario: ${s.brief}\n\nTheir prompt:\n"""${pt.value.slice(0,4000)}"""\n\nGive feedback in plain UK English, under 180 words, in exactly this shape:\nWhat works: (1-2 bullets)\nImprove: (2-3 bullets, each naming a missing ingredient from Role, Task, Context, Format, Constraints)\nSafety: (one line on data protection or accuracy risks)\nBetter version: (a rewritten prompt, max 80 words)\nDo not use em dashes.`
+   : pt.value.slice(0,6000);
+  try{
+    await sample(input,{signal:ctl.signal,cache:false,onText:({text})=>{out.textContent=text}});
+  }catch(e){
+    if(e&&e.code==='cancelled'){out.textContent=e.text||'Stopped.'}
+    else if(e&&['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(e.code)){out.textContent='';$('#aiOut').hidden=true;$('#aiRow').hidden=true;$('#aiNote').textContent=errCopy(e.code)}
+    else{out.textContent=(e&&e.code==='refused'?'':(e&&e.text)||'');$('#aiNote').textContent=errCopy(e&&e.code)}
+  }finally{busy(false)}
+}
+$('#askReview').onclick=()=>{if(!blocked)callAI('review')};
+$('#runPrompt').onclick=()=>{if(!blocked)callAI('run')};
+$('#stopAI').onclick=()=>ctl&&ctl.abort();
+(async()=>{try{if(window.claude&&claude.use){sample=await claude.use('sample');if(sample){$('#aiRow').hidden=false;$('#aiNote').textContent='Claude feedback uses your own Claude account. You will be asked to allow it the first time.';evalPrompt()}}}catch(e){}})();
+
+/* ---------- Workflow builder ---------- */
+const SLOTS=[{id:'trigger',n:'Trigger',h:'What starts it?'},{id:'ai',n:'AI step',h:'Thinking task'},{id:'auto',n:'Automation step',h:'Process task'},{id:'human',n:'Human check',h:'Who reviews?'},{id:'result',n:'Result',h:'What improves?'}];
+const W=[
+ {id:'onb',name:'HR · New starter onboarding',brief:'New starters keep arriving with no laptop, no login and no idea where to go. Build a workflow that fixes this.',
+  cards:[
+   {t:'Manager submits the new starter form',s:'trigger'},
+   {t:'AI drafts a personalised welcome email from the form details',s:'ai'},
+   {t:'Flow creates the IT setup task and books the induction in the calendar',s:'auto'},
+   {t:'HR reads the welcome email before it is sent',s:'human'},
+   {t:'New starter arrives with kit, login and a clear first week',s:'result'},
+   {t:'AI decides the new starter’s salary band',bad:'Pay decisions affect people directly and need human judgement and accountability. AI should not make them.'},
+   {t:'Paste the starter’s passport scan into a free chatbot to check it',bad:'Identity documents are personal data. Never put them into unapproved AI tools.'},
+   {t:'Skip the review: the email is probably fine',bad:'AI can be confidently wrong. A quick human check catches errors before they reach a new colleague.'}
+  ]},
+ {id:'int',name:'Recruitment · Interview scheduling',brief:'Recruiters spend hours sending invites and chasing confirmations, and candidates often miss interviews.',
+  cards:[
+   {t:'Candidate moves to the "Interview" stage in the recruitment system',s:'trigger'},
+   {t:'AI drafts the invite using the job title, time and location',s:'ai'},
+   {t:'Automation sends a calendar invite and a 24-hour reminder',s:'auto'},
+   {t:'Recruiter checks the wording and any adjustment requests',s:'human'},
+   {t:'Fewer no-shows and far less chasing',s:'result'},
+   {t:'AI auto-rejects any CV with a gap in employment',bad:'Rejecting people automatically on a rule like this risks unfair and potentially discriminatory decisions. Keep people decisions with people.'},
+   {t:'Candidate replies go to an inbox nobody checks',bad:'Automation without ownership creates a poor candidate experience. Someone must own responses.'},
+   {t:'Upload all candidates’ CVs to a public AI tool to rank them',bad:'Candidate data is personal data. Unapproved tools and automated ranking both create serious risk.'}
+  ]},
+ {id:'fb',name:'Training · Learner feedback',brief:'Course feedback sits unread in a form for weeks, so improvements are slow and trainers never see the themes.',
+  cards:[
+   {t:'Course feedback form closes at the end of the week',s:'trigger'},
+   {t:'AI groups comments into themes with a short summary',s:'ai'},
+   {t:'Automation emails the summary to the trainer and logs it in the tracker',s:'auto'},
+   {t:'Trainer compares the summary with the original comments',s:'human'},
+   {t:'Faster course improvements, backed by evidence',s:'result'},
+   {t:'AI rewrites negative comments so they sound positive',bad:'That hides real problems and misrepresents learners. AI should summarise honestly.'},
+   {t:'Email every learner’s named comments to all staff',bad:'Sharing named feedback widely breaks trust and may breach data protection.'},
+   {t:'AI decides which trainer should be given a warning',bad:'Performance and disciplinary decisions need human judgement, context and a fair process.'}
+  ]}
+];
+const wfScen=$('#wfScen'); W.forEach(w=>wfScen.append(el('option',{value:w.id,text:w.name})));
+let placed={}, sel=null, order=[];
+function wf(){return W.find(w=>w.id===wfScen.value)}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function resetWf(){placed={};sel=null;order=shuffle(wf().cards.map((_,i)=>i));$('#wfBrief').textContent=wf().brief;$('#verdict').replaceChildren();renderWf()}
+function card(i){
+  const c=wf().cards[i];
+  const b=el('div',{class:'blk'+(sel===i?' sel':''),draggable:'true',tabindex:'0',role:'button','aria-pressed':String(sel===i),'data-i':i},el('span',{text:c.t}));
+  b.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(i));sel=i});
+  b.addEventListener('click',e=>{e.stopPropagation();const inSlot=Object.entries(placed).find(([,v])=>v===i);if(inSlot&&sel===null){delete placed[inSlot[0]];$('#verdict').replaceChildren();renderWf();return}if(inSlot&&sel!==i){drop(inSlot[0],sel);return}sel=sel===i?null:i;renderWf()});
+  b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();b.click()}});
+  return b;
+}
+function drop(slot,i){for(const k in placed)if(placed[k]===i)delete placed[k];placed[slot]=i;sel=null;$('#verdict').replaceChildren();renderWf()}
+function renderWf(){
+  const f=$('#flow'); f.replaceChildren();
+  SLOTS.forEach((s,idx)=>{
+    const d=el('div',{class:'slot'+(sel!==null?' armed':''),'data-slot':s.id,tabindex:'0','aria-label':`${s.n} stage`},el('div',{class:'sl'},el('span',{text:s.n}),el('span',{text:String(idx+1)})));
+    if(placed[s.id]!==undefined) d.append(card(placed[s.id])); else d.append(el('div',{class:'hint',text:s.h}));
+    d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('over')});
+    d.addEventListener('dragleave',()=>d.classList.remove('over'));
+    d.addEventListener('drop',e=>{e.preventDefault();drop(s.id,Number(e.dataTransfer.getData('text/plain')))});
+    d.addEventListener('click',()=>{if(sel!==null)drop(s.id,sel)});
+    d.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&sel!==null){e.preventDefault();drop(s.id,sel)}});
+    f.append(d);
+  });
+  const used=new Set(Object.values(placed));
+  const p=$('#pool'); p.replaceChildren(...order.filter(i=>!used.has(i)).map(card));
+  p.ondragover=e=>e.preventDefault();
+  p.ondrop=e=>{e.preventDefault();const i=Number(e.dataTransfer.getData('text/plain'));for(const k in placed)if(placed[k]===i)delete placed[k];sel=null;renderWf()};
+}
+$('#wfCheck').onclick=()=>{
+  const v=$('#verdict'); v.replaceChildren(); let right=0;
+  SLOTS.forEach(s=>{
+    const slotEl=document.querySelector(`.slot[data-slot="${s.id}"]`);
+    const i=placed[s.id];
+    if(i===undefined){v.append(el('div',{class:'vline warn',text:`${s.n}: empty. Every stage needs a card.`}));return}
+    const c=wf().cards[i];
+    if(c.bad){slotEl.classList.add('no');v.append(el('div',{class:'vline no',text:`${s.n}: trap card. ${c.bad}`}))}
+    else if(c.s!==s.id){slotEl.classList.add('no');const real=SLOTS.find(x=>x.id===c.s).n;v.append(el('div',{class:'vline no',text:`${s.n}: "${c.t}" belongs in ${real}.`}))}
+    else{slotEl.classList.add('ok');right++}
+  });
+  const wb=store.get('m1wf',{}); wb[wf().id]=Math.max(wb[wf().id]||0,right); store.set('m1wf',wb); renderProgress();
+  v.prepend(el('div',{class:'vline '+(right===5?'ok':'warn'),text:right===5?'All five stages are right. Notice the pattern: AI handles the thinking, automation moves it through the process, and a person checks it before it matters.':`${right} of 5 stages correct. Fix the ones marked, then check again.`}));
+};
+$('#wfReset').onclick=resetWf;
+wfScen.addEventListener('change',resetWf);
+resetWf();
+
+/* ---------- KSB self-check ---------- */
+const K=[
+ {c:'K7',t:'Knowledge',d:'Capabilities, benefits, risks and limitations of AI and automation tools in a workplace setting.',ev:'Benefits and risks section of your Opportunity Report; risk column in your opportunity log.'},
+ {c:'K9',t:'Knowledge',d:'Key AI and automation concepts and how they affect ways of working, culture and staff wellbeing.',ev:'Concepts section of your report; notes on how staff might feel about each idea.'},
+ {c:'K25',t:'Knowledge',d:'Keeping up to date with emerging AI, automation and digital technology trends.',ev:'Technology scan; research hours logged; release notes or webinars you reviewed.'},
+ {c:'S14',t:'Skill',d:'Identifying workplace opportunities where AI, automation or low-code/no-code tools could improve productivity.',ev:'Your three opportunities in the Opportunity and Trend Log.'},
+ {c:'S25',t:'Skill',d:'Exploring and evaluating existing and emerging technologies, including vendor tools and supplier solutions.',ev:'Comparison of two or three tools against one of your opportunities.'},
+ {c:'B6',t:'Behaviour',d:'Curiosity, initiative and safe experimentation when exploring AI and automation.',ev:'Safe experimentation notes using dummy data, with screenshots and what you learned.'}
+];
+const LV=['Not yet','Starting','Confident','Can evidence'];
+let ks=store.get('m1ksb',{});
+function renderKsb(){
+  const l=$('#ksbList'); l.replaceChildren();
+  K.forEach(k=>{
+    const st=ks[k.c]||{};
+    const lv=el('div',{class:'levels',role:'group','aria-label':`${k.c} confidence`},LV.map((n,i)=>el('button',{class:'lv',type:'button','aria-pressed':String(st.l===i),text:n,onclick:()=>{ks[k.c]={...st,l:i};store.set('m1ksb',ks);renderKsb();renderProgress()}})));
+    const ta=el('textarea',{id:`ev-${k.c}`,placeholder:'Evidence I have or plan to collect...'});ta.value=st.n||'';
+    ta.addEventListener('input',()=>{ks[k.c]={...(ks[k.c]||{}),n:ta.value};store.set('m1ksb',ks);renderSum()});
+    l.append(el('div',{class:'ksb'},el('div',{class:'code'},el('small',{text:k.t}),k.c),el('div',{style:'min-width:0'},el('p',{text:k.d}),lv,ta,el('p',{class:'ev',style:'margin-top:6px',text:'Evidence idea: '+k.ev}))));
+  });
+  renderSum();
+}
+function renderSum(){
+  const s=$('#ksbSum'); s.replaceChildren(...K.map(k=>{const v=ks[k.c]?.l;return el('div',{class:'sum'},el('div',{class:'c',text:k.c}),el('div',{class:'v',text:v==null?'Not rated':LV[v]}))}));
+}
+function sumText(){
+  const lines=['Month 1 KSB self-check (L4 AI & Automation Practitioner)',''];
+  K.forEach(k=>{const v=ks[k.c]||{};lines.push(`${k.c}: ${v.l==null?'Not rated':LV[v.l]}`);if(v.n&&v.n.trim())lines.push(`  Evidence: ${v.n.trim()}`)});
+  const gaps=K.filter(k=>(ks[k.c]?.l??0)<2).map(k=>k.c);
+  lines.push('',gaps.length?`Focus before Session 2: ${gaps.join(', ')}`:'All KSBs rated Confident or above.');
+  return lines.join('\n');
+}
+$('#copySum').onclick=async()=>{
+  const t=sumText(), ta=$('#sumText');
+  try{await navigator.clipboard.writeText(t);$('#copyMsg').textContent='Copied. Paste it into your OJT log or PRM notes.';ta.hidden=true}
+  catch(e){ta.value=t;ta.hidden=false;ta.style.minHeight='180px';ta.focus();ta.select();$('#copyMsg').textContent='Copy was blocked here. The text is selected below: press Ctrl+C or Cmd+C.'}
+};
+$('#resetKsb').onclick=()=>{ks={};store.set('m1ksb',ks);renderKsb();$('#copyMsg').textContent='Cleared.'};
+renderKsb();
+
+/* ---------- Results file ---------- */
+const nameIn=$('#learnerName'); nameIn.value=store.get('m1name','');
+nameIn.addEventListener('input',()=>store.set('m1name',nameIn.value));
+if(UPLOAD_LINK){const a=$('#uploadLink');a.href=UPLOAD_LINK;a.hidden=false}
+if(FORM_ENDPOINT){$('#stepSend').textContent='Your results go straight to your trainer. You will see a confirmation here.'}
+function quizData(){const best=store.get('m1quizBest',null), last=store.get('m1quizLast',[]);const a=best||last;const by={};Q.forEach((q,i)=>{by[q.k]=by[q.k]||[0,0];if(i<a.length){by[q.k][1]++;if(a[i])by[q.k][0]++}});return{a,complete:!!best,score:a.filter(Boolean).length,by}}
+function promptScore(t){return ING.filter(i=>i.re.test(t||'')).length}
+function renderProgress(){
+  const qd=quizData(), wb=store.get('m1wf',{}), d=store.get('m1prompts',{}), rated=K.filter(k=>ks[k.c]?.l!=null).length;
+  const items=[[`Quiz ${qd.complete?qd.score+'/10':'not finished'}`,qd.complete],[`Prompt lab ${S.filter(x=>promptScore(d[x.id])>0).length}/4 scenarios`,S.some(x=>promptScore(d[x.id])>=4)],[`Workflows ${W.filter(w=>wb[w.id]===5).length}/3 complete`,W.every(w=>wb[w.id]===5)],[`Self-check ${rated}/6 rated`,rated===6]];
+  $('#progress').replaceChildren(...items.map(([t,done])=>el('span',{class:'chip'+(done?' done':''),text:(done?'✓ ':'')+t})));
+}
+function csvCell(v){v=String(v??'');return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+const WFS={onb:'Onboarding',int:'Interviews',fb:'Feedback'}, PRS={hr:'HR FAQs',rec:'Job advert',lead:'Meeting actions',train:'Feedback summary'};
+function buildCols(name){
+  const qd=quizData(), wb=store.get('m1wf',{}), d=store.get('m1prompts',{});
+  const one=t=>String(t??'').replace(/\s+/g,' ').trim();
+  const cols=[['Name',one(name)],['Submitted',new Date().toLocaleString('en-GB')],['Quiz complete',qd.complete?'Yes':'No'],['Quiz score',qd.score],['Quiz answered',qd.a.length]];
+  ['K7','K9','K25','S14','S25','B6'].forEach(k=>{const v=qd.by[k];cols.push([`Quiz ${k}`,v&&v[1]?`${v[0]} of ${v[1]}`:'n/a'])});
+  W.forEach(w=>cols.push([`Workflow ${WFS[w.id]}`,wb[w.id]!=null?`${wb[w.id]} of 5`:'Not tried']));
+  S.forEach(x=>cols.push([`Prompt ${PRS[x.id]}`,d[x.id]&&d[x.id].trim()?`${promptScore(d[x.id])} of 5`:'Not tried']));
+  K.forEach(k=>{const v=ks[k.c]||{};cols.push([`Self-check ${k.c}`,v.l==null?'Not rated':LV[v.l]])});
+  K.forEach(k=>{const v=ks[k.c]||{};cols.push([`Evidence ${k.c}`,one(v.n).slice(0,160)])});
+  return cols;
+}
+function getName(msgEl){const name=nameIn.value.trim();if(!name){msgEl.textContent='Add your full name first.';nameIn.focus();return null}return name}
+$('#emailResults').onclick=async()=>{
+  const msg=$('#saveMsg'); const name=getName(msg); if(!name) return;
+  const cols=buildCols(name), get=k=>cols.find(c=>c[0]===k)[1];
+  const subject=`M1RESULTS | ${name}`;
+  const dataLine=cols.map(c=>csvCell(c[1])).join(',');
+  if(FORM_ENDPOINT){
+    msg.textContent='Sending...';
+    try{
+      const body=Object.fromEntries(cols); body._subject=subject; body.data=dataLine;
+      const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
+      if(!r.ok) throw new Error(r.status);
+      msg.textContent='Sent. Your trainer has your results.'; return;
+    }catch(e){msg.textContent='Could not send just now, so your email app will open instead.'}
+  }
+  if(!RESULTS_EMAIL){msg.textContent='Your trainer has not set an email address yet. Use Save as a file instead and send it to them.';return}
+  const lines=['Module 1 Activity Lab results','',`Name: ${name}`,`Submitted: ${get('Submitted')}`,'',
+    `Quiz: ${get('Quiz score')} of 10 (${get('Quiz complete')==='Yes'?'complete':'not finished'})`,
+    '  '+['K7','K9','K25','S14','S25','B6'].map(k=>`${k} ${get('Quiz '+k)}`).join(', '),
+    'Workflows: '+W.map(w=>`${WFS[w.id]} ${get('Workflow '+WFS[w.id])}`).join(', '),
+    'Prompt lab: '+S.map(x=>`${PRS[x.id]} ${get('Prompt '+PRS[x.id])}`).join(', '),
+    'Self-check: '+K.map(k=>`${k.c} ${get('Self-check '+k.c)}`).join(', '),
+    'Evidence:',...K.filter(k=>get('Evidence '+k.c)).map(k=>`  ${k.c}: ${get('Evidence '+k.c)}`),
+    '','Please do not edit below this line.','DATA:'+dataLine];
+  let href=`mailto:${RESULTS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\r\n'))}`;
+  if(href.length>1900){const short=lines.filter(l=>!/^  (K7|K9|K25|S14|S25|B6):/.test(l)&&l!=='Evidence:');href=`mailto:${RESULTS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(short.join('\r\n'))}`}
+  location.href=href;
+  msg.textContent=`Your email app should now be open. Press Send. If nothing opened, email ${RESULTS_EMAIL} using Save as a file instead.`;
+};
+$('#saveResults').onclick=()=>{
+  const msg=$('#saveMsg'); const name=getName(msg); if(!name) return;
+  const cols=buildCols(name);
+  const csv='﻿'+cols.map(c=>csvCell(c[0])).join(',')+'\r\n'+cols.map(c=>csvCell(c[1])).join(',')+'\r\n';
+  const file=name.replace(/[^\w\- ]+/g,'').trim().replace(/\s+/g,'_')+'_Module1_results.csv';
+  try{
+    const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+    const a=el('a',{href:url,download:file});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
+    msg.textContent=`Saved ${file}. Attach it to an email to your trainer${RESULTS_EMAIL?' ('+RESULTS_EMAIL+')':''}${UPLOAD_LINK?' or upload it to the folder':''}.`;
+  }catch(e){msg.textContent='Your browser blocked the download. Use Copy summary in the KSB self-check instead and send it to your trainer.'}
+};
+renderProgress();
+})();
+</script>
+
+</body>
+</html>
