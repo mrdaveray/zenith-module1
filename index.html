@@ -601,7 +601,7 @@ $('#emailResults').onclick=async()=>{
     'Prompt lab: '+S.map(x=>`${PRS[x.id]} ${get('Prompt '+PRS[x.id])}`).join(', '),
     'Self-check: '+K.map(k=>`${k.c} ${get('Self-check '+k.c)}`).join(', '),
     'Evidence:',...K.filter(k=>get('Evidence '+k.c)).map(k=>`  ${k.c}: ${get('Evidence '+k.c)}`),
-    '','Please do not edit below this line.','DATA:'+dataLine];
+    '','Please do not edit below this line.','DATA:'+dataLine+'|END'];
   let href=`mailto:${RESULTS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\r\n'))}`;
   if(href.length>1900){const short=lines.filter(l=>!/^  (K7|K9|K25|S14|S25|B6):/.test(l)&&l!=='Evidence:');href=`mailto:${RESULTS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(short.join('\r\n'))}`}
   location.href=href;
