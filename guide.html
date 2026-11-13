@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Month 1 Assignment Guide: AI and Automation Opportunity Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1F3864;--teal:#2E75B6;--light:#EAF2FB;--bg:#F6F8FB;--card:#fff;--text:#1d2433;--muted:#5b6578;--line:#E1E6EE;--green:#2E8B57;--amber:#D98E04;--red:#C0392B}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55}
+header{background:var(--navy);color:#fff;padding:22px 28px}
+header .kicker{font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
+header h1{margin:4px 0 2px;font-size:24px}
+header p{margin:0;opacity:.85}
+.progress-wrap{margin-top:14px;display:flex;align-items:center;gap:12px;max-width:520px}
+.bar{flex:1;height:8px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden}
+.bar span{display:block;height:100%;background:#7FC4FF;width:0;transition:width .3s}
+.progress-wrap small{white-space:nowrap;opacity:.9}
+.layout{display:grid;grid-template-columns:250px 1fr;min-height:calc(100vh - 120px)}
+nav{background:#fff;border-right:1px solid var(--line);padding:16px 10px;position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}
+nav .grp{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:14px 10px 6px}
+nav button{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:8px;font:inherit;font-size:14px;color:var(--text);cursor:pointer}
+nav button:hover{background:var(--bg)}
+nav button.active{background:var(--light);color:var(--navy);font-weight:600}
+nav .tick{color:var(--green);font-weight:700}
+main{padding:28px;max-width:960px;min-width:0}
+.view{display:none}.view.active{display:block}
+h2{color:var(--navy);margin:0 0 6px;font-size:22px}
+h3{color:var(--teal);margin:22px 0 8px;font-size:16px}
+.lead{color:var(--muted);margin-top:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.tip{background:var(--light);border-left:4px solid var(--teal);border-radius:8px;padding:12px 16px;margin:14px 0}
+.tip b{color:var(--navy)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.chip{background:var(--navy);color:#fff;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600;cursor:pointer;border:0;font-family:inherit}
+.chip.s{background:var(--teal)}.chip.b{background:#6B5B95}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:.15s}
+.tile:hover{border-color:var(--teal);box-shadow:0 2px 8px rgba(46,117,182,.12)}
+.tile .n{font-size:12px;color:var(--muted)}
+.tile .t{font-weight:600;color:var(--navy);margin:2px 0 6px}
+.tile .st{font-size:12px;color:var(--muted)}
+.tile.done{border-color:var(--green)}.tile.done .st{color:var(--green);font-weight:600}
+ul.check{list-style:none;padding:0;margin:6px 0}
+ul.check li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line)}
+ul.check li:last-child{border-bottom:0}
+ul.check input{margin-top:4px;width:17px;height:17px;accent-color:var(--teal);flex-shrink:0}
+ul.check label{cursor:pointer}
+ul.check input:checked+label{color:var(--muted);text-decoration:line-through}
+ul.plain{margin:6px 0;padding-left:20px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff}
+th{background:var(--navy);color:#fff;text-align:left;padding:9px 10px;font-weight:600}
+td{border-bottom:1px solid var(--line);padding:9px 10px;vertical-align:top}
+.tablewrap{overflow-x:auto}
+.peel{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.peel button{background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px 8px;font:inherit;cursor:pointer;text-align:center}
+.peel button .L{font-size:26px;font-weight:700;color:var(--teal);display:block}
+.peel button.on{border-color:var(--teal);background:var(--light)}
+#peelOut{min-height:60px}
+.ex span{padding:1px 3px;border-radius:4px;transition:.2s}
+.ex span.hl{background:#FFE9A8}
+.rag{display:inline-block;padding:2px 10px;border-radius:99px;color:#fff;font-weight:600;font-size:12px}
+.rag.G{background:var(--green)}.rag.A{background:var(--amber)}.rag.R{background:var(--red)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form label{font-size:13px;color:var(--muted);display:block;margin-bottom:3px}
+.form input,.form select,.form textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:14px}
+.form .full{grid-column:1/-1}
+.scores{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:8px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--teal);border:1px solid var(--teal)}
+.btn.sm{padding:4px 10px;font-size:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.warn{color:var(--red);font-size:13px;margin-top:6px}
+.done-btn{margin-top:16px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;padding:10px 16px;border-radius:8px;opacity:0;transition:.3s;pointer-events:none;max-width:calc(100vw - 40px)}
+.toast.show{opacity:1}
+@media(max-width:780px){.layout{grid-template-columns:1fr}nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);display:flex;overflow-x:auto;padding:8px}nav .grp{display:none}nav button{white-space:nowrap;width:auto}main{padding:18px}.peel{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr}.scores{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Level 4 AI and Automation Practitioner (ST1512) · Month 1</div>
+  <h1>How to Write Your Month 1 Assignment</h1>
+  <p>AI and Automation Opportunity Report</p>
+  <div class="progress-wrap"><div class="bar"><span id="progBar"></span></div><small id="progTxt">0% complete</small></div>
+</header>
+<div class="layout">
+<nav id="nav"></nav>
+<main id="main"></main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KSB = {
+ K7:"Explain the capabilities, benefits, risks and limitations of AI and automation tools in a workplace setting.",
+ K9:"Explain key AI and automation concepts, including how they can affect ways of working, workplace culture and staff wellbeing.",
+ K25:"Keep up to date with emerging AI, automation and digital technology trends.",
+ S14:"Identify possible workplace opportunities where AI, automation or low-code/no-code tools could improve productivity.",
+ S25:"Explore and evaluate existing and emerging technologies, including vendor tools and supplier solutions.",
+ B6:"Show curiosity, initiative and safe experimentation when exploring AI and automation."
+};
+const SECTIONS = [
+ {id:"s1",title:"Introduction and chosen theme",ksb:[],
+  intro:"Set the scene briefly. Introduce your organisation, your role and the theme you have chosen. Keep it short: a few clear paragraphs are enough.",
+  include:["State your chosen theme (HR, Recruitment, Leadership and Operations, or Training and Learning Support)","Briefly describe your organisation and your role","Describe the area of work your report focuses on","Explain the purpose of the report: exploring AI and automation and spotting early opportunities"],
+  marker:[],tips:["Do not name customers, colleagues or anything confidential. Describe your organisation in general terms (for example, \"a 200-person training provider in the North East\")."]},
+ {id:"s2",title:"Key AI and automation concepts",ksb:["K9"],
+  intro:"Explain the key concepts in your own words and show how each one relates to your workplace. Then explain how these technologies can affect the way people work, the culture and staff wellbeing.",
+  include:["Explain AI and generative AI","Explain automation and workflow automation, and how they differ from AI","Explain low-code/no-code tools, chatbots, and APIs and connectors","Give a workplace example for each concept, ideally from your chosen theme","Explain how these technologies could change ways of working","Explain the possible effect on workplace culture and staff wellbeing (for example, anxiety about jobs, or less time on repetitive tasks)"],
+  marker:["K9: each concept explained clearly, not just defined","K9: the impact on ways of working, culture AND wellbeing. All three are separate elements, so cover each one"],
+  tips:["A good test: could a non-technical colleague read your explanation and understand it? If so, you have pitched it right.","A simple table comparing AI with automation can work well here, followed by PEEL paragraphs that explain the differences."]},
+ {id:"s2e",title:"Ethical considerations",ksb:["K9"],
+  intro:"Explain the main ethical issues raised by using AI and automation in your workplace, and how they affect people, culture and wellbeing. You do not need to cover every issue. Choose at least three that fit your chosen theme and explain each one in depth.",
+  include:["Choose at least three from: fairness and bias, transparency (telling people when AI is used), accountability (who is responsible for an AI decision), privacy and data protection, human oversight, job security and deskilling, and trust","For each, explain what it means and how it could arise in your workplace or chosen theme","Explain how each issue could affect staff, customers or learners, including their trust and wellbeing","Suggest how the organisation could use AI ethically (for example, human review of decisions, clear communication, approved tools only)","Refer to your organisation's AI policy or values if it has them"],
+  marker:["K9: an understanding of how AI and automation affect people, shown through the ethical issues they raise","Each ethical issue explained AND applied to your workplace, not just defined","A link between ethics and workplace culture and staff wellbeing"],
+  tips:["Keep it practical. For example, if AI helps screen job applications, explain why fairness and human oversight matter, and how a candidate or colleague might feel about it.","This section is an introduction. In Month 2 you will look at responsible AI, ethics, legislation and workforce impact in much more depth, so what you write here gives you a head start."]},
+ {id:"s3",title:"Capabilities, benefits, risks and limitations",ksb:["K7"],
+  intro:"Explain what AI and automation tools can and cannot do in a workplace, and weigh up the benefits against the risks. K7 names four elements, and each one is ticked off separately.",
+  include:["Capabilities: what the tools can do (for example drafting, summarising, classifying, routing, reminding, updating records)","Benefits: such as time saved, consistency, fewer errors, better user experience","Risks: such as inaccurate outputs, bias, data protection, overreliance, poor data, workforce anxiety","Limitations: what the tools cannot do well, and where human judgement is still needed","Link the points back to your chosen theme"],
+  marker:["K7: capabilities, benefits, risks and limitations all covered, each as its own element","Evidence or a reference to back up the main points"],
+  tips:["Do not just list risks. Use PEEL to explain why each one matters in your workplace. For example, explain why an inaccurate output would be a problem in your HR or recruitment process."]},
+ {id:"s4",title:"Technology scan: emerging trends and tools",ksb:["K25","S25"],
+  intro:"Show that you keep up to date and can evaluate tools. Research at least three current or emerging AI or automation tools or trends that are relevant to your theme, and evaluate them.",
+  include:["Research at least three tools or trends relevant to your theme","For each: what it does and who provides it","Evaluate each one: how it could fit your workplace, cost or licensing, ease of use, and how it handles data","Note where you found the information (vendor sites, release notes, webinars, articles, professional networks)","Say which tool or trend looks most promising and why"],
+  marker:["K25: evidence that you actively keep up to date, with sources and dates","S25: an evaluation of the tools, not just a description. Compare them and give your judgement"],
+  tips:["A comparison table works well here: tool, provider, what it does, cost, data handling, fit for your workplace. Follow it with a paragraph giving your judgement.","Record the date you looked at each source. AI tools change quickly, and dated sources show you are keeping current."]},
+ {id:"s5",title:"Opportunity and Trend Log",ksb:["S14"],
+  intro:"Identify three possible workplace opportunities where AI or automation could improve productivity, consistency, efficiency or user experience. You are not choosing your final project yet. These are starting points to investigate.",
+  include:["Three opportunities from your own workplace","For each: the current issue (what is slow, repetitive, manual, inconsistent or frustrating)","For each: the possible AI or automation use","For each: the key risks or limits","For each: a relevant tool or trend","Score each one against the opportunity spotting model (repetitive, time-consuming, rules-based, error-prone, high-volume)"],
+  marker:["S14: three real workplace opportunities, each with all four elements","Clear reasoning for why each task suits AI, automation or low-code/no-code tools"],
+  tips:["Use the Opportunity Log Builder in the menu. It scores each idea and builds a table you can copy into your report.","A task can score highly and still be unsuitable, for example if it involves sensitive personal decisions. Say so in the risks column. This shows good judgement."]},
+ {id:"s6",title:"Safe experimentation notes",ksb:["B6","S25"],
+  intro:"Show that you have explored AI or automation tools safely and with curiosity. Try at least one tool on one of your opportunities, using dummy data only, and record what happened.",
+  include:["Name the tool you tried and confirm it is approved for use at work","Describe what you tested, using made-up or non-confidential data only","Record what worked and what did not","Record any risks you noticed (for example, an inaccurate or biased output)","Record what you learned and what you would try next","Take screenshots of the prompts and outputs for the appendix"],
+  marker:["B6: curiosity and initiative (you tried things for yourself) AND safe experimentation (dummy data, approved tools, organisational policy)","S25: evidence that you explored the tool hands-on"],
+  tips:["Keep a simple log as you go: date, tool, what you tested, result, risk spotted, what you learned. A small table is fine.","Check your organisation's AI policy before you start, and mention it. Using dummy data and an approved tool is the behaviour the marker is looking for."]},
+ {id:"s7",title:"Reflection and next steps",ksb:["B6"],
+  intro:"Reflect on your three opportunities and what you have learned. This sets you up for Month 2, where you will look at responsible AI, ethics and workforce impact.",
+  include:["Which opportunity looks most realistic, and why","Which idea could create the most value","Which risks need further investigation","What information you need to gather next (for example, speaking to users or checking data and policy)"],
+  marker:["Evaluation, not just description: give reasons for your choices"],tips:[]},
+ {id:"s8",title:"Evidence appendix and references",ksb:["S14","S25","B6"],
+  intro:"Your appendix is where the S and B criteria are proven. Refer to each item from the main report (for example, \"see Appendix B\"). Do not include any confidential, personal or sensitive information.",
+  include:["Your completed Opportunity and Trend Log","Your technology scan table","Your safe experimentation log","Screenshots of prompts and outputs using dummy or non-confidential data","An extract or screenshot of your organisation's AI policy, if available","A reference list of every source you have used"],
+  marker:[],tips:[]}
+];
+const KSB_MAP = [
+ ["K9","2, 3","Each concept explained with a workplace example; impact on ways of working, culture and wellbeing; at least three ethical issues explained and applied"],
+ ["K7","4","Capabilities, benefits, risks and limitations each covered and linked to your theme"],
+ ["K25","5","At least three current tools or trends researched, with dated sources"],
+ ["S25","5, 7","Tools compared and evaluated, plus hands-on exploration"],
+ ["S14","6","Three opportunities, each with issue, use, risks and tool or trend"],
+ ["B6","7, 8","Safe experimentation with dummy data and approved tools, shown in screenshots"]
+];
+const SUBMIT = ["I have used PEEL paragraphs and kept bullet points to a minimum","I have covered every element of each KSB, not just the headline","I have explained at least three ethical issues and applied them to my workplace","I have linked everything back to my own workplace and chosen theme","My Opportunity and Trend Log has three opportunities, each with all four elements","My technology scan evaluates tools, not just describes them","Every screenshot is referred to in the report and placed in the appendix","I have used dummy data only and removed any confidential or personal information","I have added a reference list"];
+const CRIT = [["rep","Repetitive"],["time","Time-consuming"],["rules","Rules-based"],["err","Error-prone"],["vol","High-volume"]];
+
+/* storage */
+let store = {};
+try{ store = JSON.parse(localStorage.getItem("m1guide")||"{}"); }catch(e){}
+function save(){ try{ localStorage.setItem("m1guide", JSON.stringify(store)); }catch(e){} updateProgress(); }
+store.checks = store.checks||{}; store.opps = store.opps||[];
+
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const chip = k => `<button class="chip ${k[0]==='S'?'s':k[0]==='B'?'b':''}" data-ksb="${k}" title="${esc(KSB[k])}">${k}</button>`;
+function checklist(prefix, items){
+  return `<ul class="check">${items.map((x,i)=>{const id=prefix+"-"+i;return `<li><input type="checkbox" id="${id}" data-c="${id}" ${store.checks[id]?"checked":""}><label for="${id}">${esc(x)}</label></li>`}).join("")}</ul>`;
+}
+function sectionDone(s){ return s.include.every((_,i)=>store.checks[s.id+"-"+i]); }
+
+/* views */
+const VIEWS = [];
+VIEWS.push({id:"overview",grp:"Start here",label:"Overview",render:()=>`
+ <h2>Overview</h2>
+ <p class="lead">Use this guide alongside the assessment brief. Work through each section, tick off what you have written, and use the checklists before you submit. Your ticks are saved in this browser only.</p>
+ <div class="card"><b>The task in one line:</b> write a professional report exploring AI and automation in your chosen theme, including a technology scan, an Opportunity and Trend Log with three workplace opportunities, and notes from your own safe experimentation.</div>
+ <div class="card"><b>Format:</b> a professional project-style report, not a workbook.<br><b>Themes:</b> HR, Recruitment, Leadership and Operations, or Training and Learning Support.<br><b>Evidence:</b> report, Opportunity and Trend Log, technology scan, safe experimentation notes, and screenshots or examples using non-confidential data.<br><b>KSBs:</b> K7, K9, K25, S14, S25, B6</div>
+ <h3>Report sections</h3>
+ <div class="grid">${SECTIONS.map((s,i)=>`<div class="tile ${sectionDone(s)?"done":""}" data-go="${s.id}"><div class="n">${i<8?"Section "+(i+1):"Appendix"}</div><div class="t">${esc(s.title)}</div><div class="chips">${s.ksb.map(chip).join("")}</div><div class="st">${sectionDone(s)?"✓ Complete":s.include.filter((_,j)=>store.checks[s.id+"-"+j]).length+" of "+s.include.length+" ticked"}</div></div>`).join("")}</div>
+ <div class="tip"><b>Month 1 is about exploring, not deciding.</b> You do not need to pick your final project yet. Your three opportunities are starting points that you will investigate in later months. Tap any KSB badge to see what it means.</div>`});
+VIEWS.push({id:"style",grp:"Start here",label:"Writing style (PEEL)",render:()=>`
+ <h2>Writing style for a Level 4 report</h2>
+ <p class="lead">At Level 4 your work should follow a higher education report format. That means fewer bullet points and more well-structured paragraphs that describe a situation clearly and succinctly. Bullet points and tables are fine for short lists and your log, but explanations, arguments and evaluations should be written as prose.</p>
+ <h3>Use PEEL for every paragraph</h3><p>Tap each letter to see what it means and where it appears in the example.</p>
+ <div class="peel">${[["P","Point"],["E","Evidence"],["E","Explain"],["L","Link"]].map((x,i)=>`<button data-peel="${i}"><span class="L">${x[0]}</span>${x[1]}</button>`).join("")}</div>
+ <div class="card" id="peelOut"><i>Select a letter above.</i></div>
+ <h3>Example paragraph</h3>
+ <div class="card ex" id="peelEx"><span data-p="0">Chasing managers to approve timesheets is a strong candidate for automation because it is repetitive, rules-based and happens every week.</span> <span data-p="1">Workflow automation tools such as Microsoft Power Automate can send scheduled reminders and escalate overdue approvals without any manual input (Microsoft, 2025).</span> <span data-p="2">This would save the payroll team time each week and reduce late approvals that delay pay, while the decision to approve would stay with the manager.</span> <span data-p="3">For this reason, automated timesheet reminders are the first opportunity in my Opportunity and Trend Log, and I will explore them further in the coming months.</span></div>
+ <p style="color:var(--muted);font-size:13px"><i>The example is illustrative. Use your own organisation, tools and sources.</i></p>`});
+VIEWS.push({id:"marking",grp:"Start here",label:"How it is marked",render:()=>`
+ <h2>How the report is marked</h2>
+ <p class="lead">Each KSB is checked and its individual elements are ticked off one by one. Knowing this means you know exactly what the marker is looking for.</p>
+ <div class="grid">
+  <div class="card"><span class="chip">K</span><h3 style="margin-top:8px">Knowledge</h3>You explaining the situation. The marker needs to see that you understand each element named in the KSB.</div>
+  <div class="card"><span class="chip s">S</span><h3 style="margin-top:8px">Skills</h3>Evidence that you are actually doing it: your opportunity log, technology scan and screenshots, referred to in the report and placed in the appendix.</div>
+  <div class="card"><span class="chip b">B</span><h3 style="margin-top:8px">Behaviours</h3>Shown through your safe experimentation notes, screenshots and the way you work safely throughout.</div>
+ </div>
+ <h3>All KSBs in this assignment</h3>
+ <div class="tablewrap"><table><tr><th style="width:110px">KSB</th><th>Requirement</th></tr>${Object.entries(KSB).map(([k,v])=>`<tr><td>${chip(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table></div>`});
+SECTIONS.forEach((s,i)=>VIEWS.push({id:s.id,grp:"Report sections",label:(i<8?(i+1)+". ":"")+s.title,section:s,render:()=>`
+ <h2>${i<8?(i+1)+". ":""}${esc(s.title)}</h2>
+ ${s.ksb.length?`<div class="chips">${s.ksb.map(chip).join("")}</div>`:""}
+ <p class="lead">${esc(s.intro)}</p>
+ <div class="card"><b>What to include</b> <span style="color:var(--muted);font-size:13px">(tick as you write each part)</span>${checklist(s.id,s.include)}</div>
+ ${s.marker.length?`<div class="card"><b>What the marker looks for</b><ul class="plain">${s.marker.map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
+ ${s.tips.map(t=>`<div class="tip"><b>Trainer tip</b><br>${esc(t)}</div>`).join("")}
+ ${i<SECTIONS.length-1?`<button class="btn ghost done-btn" data-go="${SECTIONS[i+1].id}">Next: ${esc(SECTIONS[i+1].title)} →</button>`:`<button class="btn ghost done-btn" data-go="ksb">Next: KSB checklist →</button>`}`}));
+VIEWS.push({id:"log",grp:"Tools",label:"Opportunity Log Builder",render:renderLog});
+VIEWS.push({id:"ksb",grp:"Tools",label:"KSB checklist",render:()=>`
+ <h2>KSB quick-reference checklist</h2><p class="lead">Tick each KSB once you are confident your report covers it.</p>
+ <div class="tablewrap"><table><tr><th style="width:44px"></th><th style="width:90px">KSB</th><th style="width:90px">Section</th><th>Evidence the marker needs to see</th></tr>
+ ${KSB_MAP.map((r,i)=>{const id="ksb-"+i;return `<tr><td><input type="checkbox" id="${id}" data-c="${id}" ${store.checks[id]?"checked":""} style="width:17px;height:17px;accent-color:var(--teal)"></td><td>${chip(r[0])}</td><td>${r[1]}</td><td><label for="${id}">${esc(r[2])}</label></td></tr>`}).join("")}</table></div>`});
+VIEWS.push({id:"submit",grp:"Tools",label:"Before you submit",render:()=>`
+ <h2>Before you submit</h2><p class="lead">Run through this final check.</p>
+ <div class="card">${checklist("sub",SUBMIT)}</div>
+ <h3>Submitting on EOS One</h3>
+ <ul class="plain"><li>Log in to EOS One, go to <b>My courses</b> and find the module by name.</li><li>Open the <b>Post Work</b> section and complete the assignment section.</li><li>Click the first blue box, map the KSB criteria, then click <b>Submit</b>.</li></ul>
+ <h3>Keeping on track</h3>
+ <ul class="plain"><li><b>Off-the-job hours:</b> log your off-the-job learning regularly so your record stays up to date. Research for your technology scan counts.</li><li><b>One-to-ones:</b> bring your draft and any questions to your next one-to-one with your trainer.</li><li><b>Questions:</b> contact your trainer by email at any time if you get stuck.</li></ul>
+ <div class="row"><button class="btn ghost" id="resetAll">Reset all my ticks</button></div>`});
+
+/* opportunity log */
+function bandOf(n){ return n>=20?["G","Strong candidate"]:n>=12?["A","Worth exploring"]:["R","Probably leave it"]; }
+function renderLog(){
+ const sel = k => `<div><label>${k[1]}</label><select name="${k[0]}">${[1,2,3,4,5].map(v=>`<option ${v===3?"selected":""}>${v}</option>`).join("")}</select></div>`;
+ return `<h2>Opportunity Log Builder</h2>
+ <p class="lead">Add your three opportunities here. Each one is scored against the opportunity spotting model, then you can copy the whole log into Word or Excel for your report.</p>
+ <div class="card"><b>Scoring:</b> rate each criterion from 1 (not at all) to 5 (very much), giving a total out of 25. <span class="rag G">20 to 25 Strong candidate</span> <span class="rag A">12 to 19 Worth exploring</span> <span class="rag R">Under 12 Probably leave it</span><p style="margin:10px 0 0;color:var(--muted);font-size:13px">A high score does not mean "automate it". If the task is sensitive or needs human judgement, say so in the risks.</p></div>
+ <div class="card"><form id="oppForm" class="form">
+  <div class="full"><label>Opportunity (short name)</label><input name="oname" required placeholder="e.g. Chasing timesheet approvals"></div>
+  <div class="full"><label>Current issue: what is slow, repetitive, manual, inconsistent or frustrating?</label><textarea name="issue" rows="2"></textarea></div>
+  <div class="full"><label>Possible AI or automation use</label><textarea name="use" rows="2" placeholder="e.g. Automated reminders every Friday, with escalation if still not approved"></textarea></div>
+  <div class="full"><label>Key risks or limits</label><textarea name="risks" rows="2" placeholder="e.g. Reminders could annoy managers; approval decisions must stay with a person"></textarea><div class="warn" id="riskWarn" style="display:none">Add at least one risk or limit. The marker expects early risk thinking for every idea.</div></div>
+  <div class="full"><label>Relevant tool or trend</label><input name="tool" placeholder="e.g. Microsoft Power Automate scheduled flows"></div>
+  <div class="full"><label>Opportunity spotting scores</label><div class="scores">${CRIT.map(sel).join("")}</div></div>
+  <div class="full"><span id="livePreview"></span></div>
+  <div class="full row" style="margin-top:0"><button class="btn" type="submit">Add opportunity</button></div>
+ </form></div>
+ <div id="oppTable"></div>`;
+}
+function oppTotal(o){ return CRIT.reduce((a,c)=>a+o[c[0]],0); }
+function drawOppTable(){
+ const el=document.getElementById("oppTable"); if(!el) return;
+ const n=store.opps.length;
+ if(!n){ el.innerHTML=`<p style="color:var(--muted)">No opportunities added yet. You need three.</p>`; return; }
+ el.innerHTML=`<p><b>${n} of 3</b> opportunities added${n>=3?" ✓":""}</p><div class="tablewrap"><table><tr><th>Opportunity</th><th>Current issue</th><th>Possible use</th><th>Key risks or limits</th><th>Tool or trend</th><th>Score</th><th></th></tr>${store.opps.map((o,i)=>{const t=oppTotal(o),b=bandOf(t);return `<tr><td>${esc(o.name)}</td><td>${esc(o.issue)}</td><td>${esc(o.use)}</td><td>${esc(o.risks)}</td><td>${esc(o.tool)}</td><td>${t}/25<br><span class="rag ${b[0]}">${b[1]}</span></td><td><button class="btn ghost sm" data-del="${i}">Remove</button></td></tr>`}).join("")}</table></div>
+ <div class="row"><button class="btn" id="copyLog">Copy log for Word or Excel</button><button class="btn ghost" id="clearLog">Clear all</button></div>`;
+}
+
+/* nav + routing */
+function buildNav(){
+ let html="",grp="";
+ VIEWS.forEach(v=>{ if(v.grp!==grp){grp=v.grp;html+=`<div class="grp">${grp}</div>`;} html+=`<button data-go="${v.id}" id="nav-${v.id}"><span>${esc(v.label)}</span>${v.section&&sectionDone(v.section)?'<span class="tick">✓</span>':""}</button>`; });
+ document.getElementById("nav").innerHTML=html;
+}
+let current="overview";
+function show(id){
+ const v=VIEWS.find(x=>x.id===id)||VIEWS[0]; current=v.id;
+ document.getElementById("main").innerHTML=`<section class="view active">${v.render()}</section>`;
+ buildNav(); document.getElementById("nav-"+v.id).classList.add("active");
+ if(v.id==="log") drawOppTable();
+ if(location.hash!=="#"+v.id) history.replaceState(null,"","#"+v.id);
+ window.scrollTo(0,0);
+}
+function updateProgress(){
+ let total=0,done=0;
+ SECTIONS.forEach(s=>s.include.forEach((_,i)=>{total++; if(store.checks[s.id+"-"+i]) done++;}));
+ KSB_MAP.forEach((_,i)=>{total++; if(store.checks["ksb-"+i]) done++;});
+ SUBMIT.forEach((_,i)=>{total++; if(store.checks["sub-"+i]) done++;});
+ const pct=Math.round(done/total*100);
+ document.getElementById("progBar").style.width=pct+"%";
+ document.getElementById("progTxt").textContent=pct+"% complete";
+}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600);}
+
+document.addEventListener("click",e=>{
+ const go=e.target.closest("[data-go]"); if(go){ show(go.dataset.go); return; }
+ const c=e.target.closest("[data-ksb]"); if(c){ toast(c.dataset.ksb+": "+KSB[c.dataset.ksb]); e.stopPropagation(); return; }
+ const p=e.target.closest("[data-peel]"); if(p){
+  const i=+p.dataset.peel, D=[["Point","State the point you are making. What is the opportunity, benefit, risk or idea?"],["Evidence","Back it up. Do some quick research and find a reliable reference point (a vendor's documentation, an article, guidance, your organisation's AI policy). Add it to your reference list."],["Explain","Explain what the evidence means. Where the brief asks you to evaluate, give your own view of the tool, process or situation."],["Link","Link it back to your scenario: your organisation, your chosen theme and your opportunity."]];
+  document.querySelectorAll("[data-peel]").forEach(b=>b.classList.toggle("on",b===p));
+  document.getElementById("peelOut").innerHTML=`<b style="color:var(--navy)">${D[i][0]}</b><br>${D[i][1]}`;
+  document.querySelectorAll("#peelEx span").forEach(s=>s.classList.toggle("hl",+s.dataset.p===i)); return; }
+ const d=e.target.closest("[data-del]"); if(d){ store.opps.splice(+d.dataset.del,1); save(); drawOppTable(); return; }
+ if(e.target.id==="clearLog"){ store.opps=[]; save(); drawOppTable(); return; }
+ if(e.target.id==="copyLog"){
+  const rows=[["Opportunity","Current issue","Possible AI or automation use","Key risks or limits","Relevant tool or trend"].concat(CRIT.map(c=>c[1]),["Total /25","Rating"])].concat(store.opps.map(o=>[o.name,o.issue,o.use,o.risks,o.tool].concat(CRIT.map(c=>o[c[0]]),[oppTotal(o),bandOf(oppTotal(o))[1]])));
+  const tsv=rows.map(r=>r.map(x=>String(x).replace(/\t|\n/g," ")).join("\t")).join("\n");
+  (navigator.clipboard?navigator.clipboard.writeText(tsv):Promise.reject()).then(()=>toast("Copied. Paste into Word or Excel.")).catch(()=>toast("Copy was blocked. Select the table and copy it manually.")); return; }
+ if(e.target.id==="resetAll"){ store.checks={}; save(); show(current); toast("Ticks reset"); }
+});
+document.addEventListener("change",e=>{
+ const c=e.target.dataset&&e.target.dataset.c; if(c){ store.checks[c]=e.target.checked; save(); buildNav(); const a=document.getElementById("nav-"+current); if(a) a.classList.add("active"); }
+ const f=e.target.form; if(f&&f.id==="oppForm") livePreview(f);
+});
+function livePreview(f){
+ const t=CRIT.reduce((a,c)=>a+(+f[c[0]].value),0),b=bandOf(t);
+ document.getElementById("livePreview").innerHTML=`Score ${t}/25 <span class="rag ${b[0]}">${b[1]}</span>`;
+}
+document.addEventListener("input",e=>{ const f=e.target.form; if(f&&f.id==="oppForm"){ livePreview(f); document.getElementById("riskWarn").style.display="none"; } });
+document.addEventListener("submit",e=>{
+ if(e.target.id!=="oppForm") return; e.preventDefault(); const f=e.target;
+ if(!f.risks.value.trim()){ document.getElementById("riskWarn").style.display="block"; f.risks.focus(); return; }
+ const o={name:f.oname.value,issue:f.issue.value,use:f.use.value,risks:f.risks.value,tool:f.tool.value}; CRIT.forEach(c=>o[c[0]]=+f[c[0]].value);
+ store.opps.push(o); save(); f.reset(); document.getElementById("livePreview").innerHTML=""; drawOppTable(); toast("Opportunity added");
+});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(h&&h!==current) show(h);});
+show(location.hash.slice(1)||"overview"); updateProgress();
+</script>
+</body>
+</html>
